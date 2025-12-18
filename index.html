@@ -4,63 +4,104 @@
     <meta charset="UTF-8">
     <title>Бодлогууд</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f4f4; }
-        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; }
-        .result-box { background: #e7f3ff; padding: 10px; border-left: 5px solid #2196F3; margin-top: 10px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 30px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h2 { color: #1a73e8; margin-top: 0; }
+        button { background-color: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; }
+        button:hover { background-color: #1557b0; }
+        .result { margin-top: 15px; padding: 10px; background: #f8f9fa; border-left: 4px solid #34a853; font-weight: bold; min-height: 20px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Хариу</h1>
+
+    <h1>Бодлого</h1>
+
+    <div class="card">
+        <h2>1. Цифрүүдийн нийлбэр палиндром эсэх</h2>
+        <p>Өгсөн тооны цифрүүдийн нийлбэрийг олоод палиндром эсэхийг шалгана.</p>
+        <button onclick="task1()">Бодох</button>
+        <div id="res1" class="result">Хариу энд гарна...</div>
+    </div>
+
+    <div class="card">
+        <h2>2. Чоно туулайг гүйцэх хугацаа</h2>
+        <p>Чоно (25км/ц), Туулай (18км/ц). Зайг оруулна уу.</p>
+        <button onclick="task2()">Бодох</button>
+        <div id="res2" class="result">Хариу энд гарна...</div>
+    </div>
+
+    <div class="card">
+        <h2>3. Байшингийн мэдээлэл олох</h2>
+        <p>9 давхар, 3 орцтой, давхартаа 4 айлтай. Хаалганы дугаар оруулна уу.</p>
+        <button onclick="task3()">Бодох</button>
+        <div id="res3" class="result">Хариу энд гарна...</div>
+    </div>
+
+    <div class="card">
+        <h2>4. 5 тооны ХБЕХ олох</h2>
+        <p>Гараас 5 тоо таслалаар тусгаарлан оруулна уу (Жишээ: 12,15,20,30,10).</p>
+        <button onclick="task4()">Бодох</button>
+        <div id="res4" class="result">Хариу энд гарна...</div>
+    </div>
+
+    <div class="card">
+        <h2>5. Цагаас хамаарсан тооцоолол</h2>
+        <p>Өглөө бол 2 зэрэг, орой бол язгуур олно.</p>
+        <button onclick="task5()">Бодох</button>
+        <div id="res5" class="result">Хариу энд гарна...</div>
     </div>
 
     <script>
-        function logResult(text) {
-            console.log(text);
-            document.getElementById('output').innerHTML += "<br>" + text;
+        function task1() {
+            let num = prompt("Тоо оруулна уу:");
+            if(!num) return;
+            let sum = [...num].reduce((a, b) => a + parseInt(b), 0);
+            let s = sum.toString();
+            let isPal = s === s.split('').reverse().join('');
+            document.getElementById('res1').innerText = `Цифрүүдийн нийлбэр: ${sum}. Палиндром мөн үү? ${isPal ? "Тийм" : "Үгүй"}`;
         }
 
-        let n1 = prompt("1. Тоо оруулна уу (Нийлбэр нь палиндром эсэхийг шалгана):");
-        if (n1) {
-            let sum = n1.split('').reduce((a, b) => a + parseInt(b), 0);
-            let revSum = sum.toString().split('').reverse().join('');
-            logResult(`1. Нийлбэр: ${sum}. Палиндром мөн үү? ${sum.toString() === revSum ? "Тийм" : "Үгүй"}`);
+        function task2() {
+            let s = parseFloat(prompt("Зайг км-ээр оруул:"));
+            if(isNaN(s)) return;
+            let timeHours = s / (25 - 18);
+            let mins = Math.floor(timeHours * 60);
+            let secs = Math.floor((timeHours * 3600) % 60);
+            document.getElementById('res2').innerText = `Гүйцэх хугацаа: ${mins} минут ${secs} секунд.`;
         }
 
-        let dist = parseFloat(prompt("2. Зайг оруулна уу (км):"));
-        if (dist) {
-            let relativeSpeed = 25 - 18; 
-            let totalSeconds = (dist / relativeSpeed) * 3600;
-            let mins = Math.floor(totalSeconds / 60);
-            let secs = Math.floor(totalSeconds % 60);
-            logResult(`2. Гүйцэх хугацаа: ${mins} минут ${secs} секунд.`);
+        function task3() {
+            let door = parseInt(prompt("Хаалганы дугаар:"));
+            if(isNaN(door)) return;
+            let entrance = Math.ceil(door / 36);
+            let floor = Math.floor(((door - 1) % 36) / 4) + 1;
+            let unit = ((door - 1) % 4) + 1;
+            document.getElementById('res3').innerText = `${entrance}-р орц, ${floor}-р давхар, ${unit}-р хаалга.`;
         }
 
-        let door = parseInt(prompt("3. Хаалганы дугаар оруулна уу:"));
-        if (door) {
-            let unitsPerEntrance = 36; 
-            let entrance = Math.ceil(door / unitsPerEntrance);
-            let rem = (door - 1) % unitsPerEntrance;
-            let floor = Math.floor(rem / 4) + 1;
-            let unit = (rem % 4) + 1;
-            logResult(`3. ${entrance}-р орц, ${floor}-р давхар, ${unit}-р хаалга.`);
+        function task4() {
+            let input = prompt("5 тоог таслалаар тусгаарлаж оруул (жишээ: 12,15,20,30,10):");
+            if(!input) return;
+            let nums = input.split(',').map(Number);
+            const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+            const lcm = (a, b) => (a * b) / gcd(a, b);
+            let res = nums.reduce((a, b) => lcm(a, b));
+            document.getElementById('res4').innerText = `Тоонууд: [${nums}]. ХБЕХ: ${res}`;
         }
 
-        let nums = [12, 15, 20, 30, 10]; 
-        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-        const lcm = (a, b) => (a * b) / gcd(a, b);
-        let resultLcm = nums.reduce((a, b) => lcm(a, b));
-        logResult(`4. [${nums}]-н ХБЕХ: ${resultLcm}`);
-
-        let n5 = parseFloat(prompt("5. Тоо оруулна уу (Цагаас хамаарч бодно):"));
-        if (n5) {
+        function task5() {
+            let n = parseFloat(prompt("Тоо оруул:"));
+            if(isNaN(n)) return;
             let hour = new Date().getHours();
+            let res, type;
             if (hour >= 6 && hour < 12) {
-                logResult(`5. Өглөө байна (2 зэрэг): ${Math.pow(n5, 2)}`);
+                res = Math.pow(n, 2);
+                type = "Өглөө (Зэрэг)";
             } else {
-                logResult(`5. Орой байна (Язгуур): ${Math.sqrt(n5).toFixed(2)}`);
+                res = Math.sqrt(n).toFixed(2);
+                type = "Орой (Язгуур)";
             }
+            document.getElementById('res5').innerText = `${type}: Хариу ${res}`;
         }
     </script>
 </body>
